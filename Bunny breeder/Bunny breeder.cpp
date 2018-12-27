@@ -82,25 +82,25 @@ int main()
 
 
 		// each rmv converts one regular bunny if available
-		if (Bunny::rmvBunnies > 0 )		
+		if (Bunny::rmvBunnies > 0)		
 		{
-			int infected = 0;
-			int numberToInfect = Bunny::rmvBunnies;
+			std::uniform_int_distribution<int> bunnyRmvDist(0, bunnyList.size());
 
-			for ( auto iter = bunnyList.begin(); (infected < numberToInfect) && (iter != bunnyList.end()); ++iter )
+			for (auto iter = bunnyList.begin(); iter != bunnyList.end(); ++iter)
 			{
-				if (iter->getRmv() == true && Bunny::rmvBunnies < (Bunny::maleBunnies + Bunny::femaleBunnies) )	// second condition to avoid infinite while loop when we have nothing left to infect
+				if (iter->getRmv() == true && Bunny::rmvBunnies < (Bunny::maleBunnies + Bunny::femaleBunnies))	// second condition to avoid infinite while loop when we have nothing left to infect
 				{
 					auto victim = iter;
-					while ( victim->getRmv() && victim != bunnyList.end() )	// loop till we get a non-rmv bunny to infect
+					while (victim->getRmv())	// loop till we get a non-rmv bunny to infect
 					{
-						++victim;
+						int victimPosition = bunnyRmvDist(bunnySelector);
+
+						victim = bunnyList.begin();
+						std::advance(victim, victimPosition);	// std::advance(iterator, n)  calls increment on iterator n times.  next(iterator.begin(), n) may also be used
 					}
 
 					iter->convert(*victim);
 					cout << iter->getName() << " turned " << victim->getName() << " into a radioactive mutant vampire." << endl;
-
-					++infected;
 				}
 			}
 
