@@ -9,8 +9,8 @@
 #include <string>
 #include <iostream>
 #include <thread>         // To use std::this_thread::sleep_for
-#include <chrono>         // To use std::chrono::seconds
-//#include <curses.h>	try to make real time input to cull bunnies 
+#include <chrono>         // To use std::chrono::seconds  as parameter for  std::this_thread::sleep_for
+ 
 
 
 using std::cin;
@@ -33,27 +33,38 @@ int main()
 	
 	
 	while (Bunny::maleBunnies >= 1 || Bunny::femaleBunnies >= 1)	// Stuff that happen each turn as long as there is one bunny alive.
-	{/*
+	{
 		char input;
-		cout << endl << "Enter 'y' to start the next turn or something else to quit: ";
+		cout << endl << "Enter 'y' to start the next turn or something else to stop breeding: ";
 		cin >> input;
 		if (input != 'y' && input != 'Y')
 		{
+			cin.clear();
+			cin.ignore();
 			break;
 		}
-		*/
+		else
+		{
+			//Avoid the cin buffer becoming messed up or getting a double input
+			cin.clear();
+			cin.ignore();
+		}
+		
 
 		cout << endl << "********************************  Turn " << turnNumber << "  *******************************" << endl;
 
-		for (Bunny & theBunny : bunnyList)	//ages all bunnies in the list by 1 year per turn
+		//ages all bunnies in the list by 1 year per turn and displays name and age
+		for (Bunny & theBunny : bunnyList)	
 		{
 			theBunny.grow();
 			cout << theBunny.getName() << " is now " << theBunny.getAge() << " years old." << endl;
 		} 
 		cout << endl;
 
-		for (auto iter = bunnyList.begin(); iter != bunnyList.end(); )		//Checks if any bunny is too old and kills them off
-		{																	//incrementing happens in the body based on conditions
+
+		//Checks if any bunny is too old and kills them off
+		for (auto iter = bunnyList.begin(); iter != bunnyList.end(); )		//incrementing happens in the body based on conditions
+		{																	
 			if (iter->isTooOld() )
 			{
 				auto tempIter = iter;		//increment iter before erasing element so as not to disrupt going through the list
@@ -70,16 +81,17 @@ int main()
 		cout << endl;
 
 
-		if (Bunny::rmvBunnies > 0 )		// each rmv converts one regular bunny if available
+		// each rmv converts one regular bunny if available
+		if (Bunny::rmvBunnies > 0)		
 		{
-			std::uniform_int_distribution<int> bunnyRmvDist(0, bunnyList.size() );
+			std::uniform_int_distribution<int> bunnyRmvDist(0, bunnyList.size());
 
-			for ( auto iter = bunnyList.begin(); iter != bunnyList.end(); ++iter )
+			for (auto iter = bunnyList.begin(); iter != bunnyList.end(); ++iter)
 			{
-				if (iter->getRmv() == true && Bunny::rmvBunnies < (Bunny::maleBunnies + Bunny::femaleBunnies) )	// second condition to avoid infinite while loop when we have nothing left to infect
+				if (iter->getRmv() == true && Bunny::rmvBunnies < (Bunny::maleBunnies + Bunny::femaleBunnies))	// second condition to avoid infinite while loop when we have nothing left to infect
 				{
 					auto victim = iter;
-					while ( victim->getRmv() )	// loop till we get a non-rmv bunny to infect
+					while (victim->getRmv())	// loop till we get a non-rmv bunny to infect
 					{
 						int victimPosition = bunnyRmvDist(bunnySelector);
 
@@ -96,7 +108,8 @@ int main()
 		cout << endl;
 
 
-		if (Bunny::adultFemaleBunnies >= 1 && Bunny::adultMaleBunnies >= 1)		// Birth a new bunny for every female in the list
+		// Birth a new bunny for every female in the list
+		if (Bunny::adultFemaleBunnies >= 1 && Bunny::adultMaleBunnies >= 1)		
 		{
 			for (auto theBunny = bunnyList.begin(), end = bunnyList.end(); theBunny != end; ++theBunny)
 			{
@@ -110,7 +123,8 @@ int main()
 		cout << endl;
 
 
-		if ((Bunny::maleBunnies + Bunny::femaleBunnies + Bunny::rmvBunnies) > 1000)	// Food shortage kills half the bunnies
+		// Food shortage kills half the bunnies when they reach a population over 100
+		if ((Bunny::maleBunnies + Bunny::femaleBunnies + Bunny::rmvBunnies) > 100)	
 		{
 			cout << "There are too many bunnies so half the bunnies will die of starvation: " << endl;
 
@@ -128,6 +142,8 @@ int main()
 		}
 		cout << endl;
 
+
+		// while loop should fail and end once all bunnies are mutants
 		if (Bunny::rmvBunnies == bunnyList.size())
 		{
 			cout << "All the bunnies are mutants now..." << endl;
@@ -135,14 +151,15 @@ int main()
 
 		++turnNumber;
 
-
+		// The following line is for pausing each turn for 3 seconds if manual turn progression is commented out
+		/*
 		std::this_thread::sleep_for(std::chrono::seconds(3));	// Makes the current thread wait for 3 seconds before starting the next operation(next loop)
-
+		*/
 
 	}
 	
 	
-
+	//Code for testing and debugging purposes
 	/*
 	for (Bunny & i : bunnyList)
 	{
