@@ -159,30 +159,14 @@ void Bunny::convert(Bunny & theBunny)
 	theBunny.name += "(rmv)";
 	++rmvBunnies;
 
-	if (theBunny.sex == "Male")
+	if (theBunny.sex == "Male" && theBunny.getAge() >= 2 )
 	{
-		if (theBunny.getAge() >= 2)
-		{
-			--maleBunnies;
-			--adultMaleBunnies;
-		}
-		else
-		{
-			--maleBunnies;
-		}
+		--adultMaleBunnies;
 	}
 
-	if (theBunny.sex == "Female")
+	if (theBunny.sex == "Female" && theBunny.getAge() >= 2 )
 	{
-		if (theBunny.getAge() >= 2)
-		{
-			--femaleBunnies;
-			--adultFemaleBunnies;
-		}
-		else
-		{
-			--femaleBunnies;
-		}
+		--adultFemaleBunnies;
 	}
 }
 
