@@ -14,6 +14,7 @@ std::uniform_int_distribution<int> sexDist(1, 2);		//used to pick sex randomly
 std::uniform_int_distribution<int> colorDist(1, 4);		//used to pick color randomly
 std::uniform_int_distribution<int> rmvDist(1, 100);		// 2% chance for rmv bunny
 
+//To get the total bunnies, add maleBunnies, femaleBunnies and rmvBunnies. Conversions increment rmv and reduce male/female
 int Bunny::maleBunnies = 0;
 int Bunny::femaleBunnies = 0;
 int Bunny::rmvBunnies = 0;
