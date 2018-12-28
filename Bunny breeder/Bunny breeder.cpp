@@ -89,7 +89,7 @@ int main()
 
 			for (auto iter = bunnyList.begin(); (infected < numberToInfect) && (iter != bunnyList.end()); ++iter)
 			{
-				if (iter->getRmv() == true && Bunny::rmvBunnies < (Bunny::maleBunnies + Bunny::femaleBunnies))	// second condition to avoid infinite while loop when we have nothing left to infect
+				if (iter->getRmv() == true && Bunny::rmvBunnies < (Bunny::maleBunnies + Bunny::femaleBunnies + Bunny::rmvBunnies))	// second condition to avoid infinite while loop when we have nothing left to infect
 				{
 					auto victim = iter;
 					while (victim->getRmv() && victim != bunnyList.end())	// loop till we get a non-rmv bunny to infect
