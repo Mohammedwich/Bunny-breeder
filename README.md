@@ -1,7 +1,5 @@
 # Bunny-breeder
 
-# Bunny-breeder
-
 -At program initialization 5 bunnies are created and given random colors.
 -Each turn afterwards the bunnies age 1 year.
 -So long as there is at least one male age 2 or older, for each female bunny in the list age 2 or older;
