@@ -83,10 +83,7 @@ Bunny::Bunny(std::string theColor)
 	{
 		++femaleBunnies;
 	}
-	if (rmv == true)
-	{
-		++rmvBunnies;
-	}
+	
 
 	std::cout << "A " << sex << " " << color << " bunny called " << name << " was born." << std::endl;
 	if (rmv == true)
@@ -99,12 +96,23 @@ Bunny::~Bunny()
 {
 	//Death messages in main()
 
-	if (sex == "Male" && rmv == false)
+	if (sex == "Male" && rmv == false && age < 2)	//In case young bunnies starve
+	{
+		--maleBunnies;
+	}
+
+	if (sex == "Male" && rmv == false && age >= 2)	//For adult bunny deaths
 	{
 		--maleBunnies;
 		--adultMaleBunnies;
 	}
-	if (sex == "Female" && rmv == false)
+
+	if (sex == "Female" && rmv == false && age < 2)
+	{
+		--femaleBunnies;
+	}
+
+	if (sex == "Female" && rmv == false && age >= 2)
 	{
 		--femaleBunnies;
 		--adultFemaleBunnies;
@@ -194,7 +202,7 @@ void Bunny::breed(std::list<Bunny> & theList)
 
 void Bunny::grow()
 {
-	++this->age;
+	++(this->age);
 
 	if (this->age == 2 && this->sex == "Male")
 	{
