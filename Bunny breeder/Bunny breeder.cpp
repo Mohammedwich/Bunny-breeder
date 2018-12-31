@@ -134,7 +134,9 @@ int main()
 			{
 				std::uniform_int_distribution<int> bunnyCullDist(0, bunnyList.size()-1 );
 				int listSpot = bunnyCullDist(bunnySelector);
-				auto chosenBunny = next(bunnyList.begin(), listSpot);
+				auto chosenBunny = bunnyList.begin();
+				std::advance(chosenBunny, listSpot);
+
 				cout << chosenBunny->getName() << " has died of starvation." << endl;
 				bunnyList.erase(chosenBunny);
 			}
