@@ -22,3 +22,5 @@
 
 --The program should also output each turns events such as bunnies being born, bunnies dying, and bunnies infected
 
+--If Total bunnies become greater than 100 the population becomes over crowded and half of them die to a food shortage
+
