@@ -89,18 +89,21 @@ int main()
 
 			for (auto iter = bunnyList.begin(); (infected < numberToInfect) && (iter != bunnyList.end()); ++iter)
 			{
-				if (iter->getRmv() == true && Bunny::rmvBunnies < (Bunny::maleBunnies + Bunny::femaleBunnies + Bunny::rmvBunnies))	// second condition to avoid infinite while loop when we have nothing left to infect
+				if ( (iter->getRmv()) == true )
 				{
 					auto victim = iter;
-					while (victim->getRmv() && victim != bunnyList.end())	// loop till we get a non-rmv bunny to infect
+					while (victim != bunnyList.end() && (victim->getRmv() == true) )	// loop till we get a non-rmv bunny to infect
 					{
 						++victim;
 					}
 
-					iter->convert(*victim);
-					cout << iter->getName() << " turned " << victim->getName() << " into a radioactive mutant vampire." << endl;
+					if (victim != bunnyList.end() && victim->getRmv() == false)
+					{
+						iter->convert(*victim);
+						cout << iter->getName() << " turned " << victim->getName() << " into a radioactive mutant vampire." << endl;
 
-					++infected;
+						++infected;
+					}
 				}
 			}
 
@@ -132,9 +135,11 @@ int main()
 
 			for (int culled = 0; culled < numberToCull; ++culled)
 			{
-				std::uniform_int_distribution<int> bunnyCullDist(0, bunnyList.size() );
+				std::uniform_int_distribution<int> bunnyCullDist(0, bunnyList.size()-1 );
 				int listSpot = bunnyCullDist(bunnySelector);
-				auto chosenBunny = next(bunnyList.begin(), listSpot);
+				auto chosenBunny = bunnyList.begin();
+				std::advance(chosenBunny, listSpot);
+
 				cout << chosenBunny->getName() << " has died of starvation." << endl;
 				bunnyList.erase(chosenBunny);
 			}
