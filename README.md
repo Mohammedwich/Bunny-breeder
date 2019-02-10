@@ -18,9 +18,9 @@
 
 --Radioactive vampire bunnies do not die until they reach age 50.
 
---The program should print a list of all the bunnies in the colony each turn along w/ all the bunnies details, sorted by age.
+--The program will print a list of all the bunnies in the colony each turn along with all the bunnies details.
 
---The program should also output each turns events such as bunnies being born, bunnies dying, and bunnies infected
+--The program should also output each turn's events such as bunnies being born, bunnies dying, and bunnies infected
 
 --If Total bunnies become greater than 100 the population becomes over crowded and half of them die to a food shortage
 
